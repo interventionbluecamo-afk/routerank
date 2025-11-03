@@ -95,3 +95,4 @@ export function getBadgeById(id: BadgeType): BadgeDefinition | undefined {
   return BADGES.find(badge => badge.id === id);
 }
 
+

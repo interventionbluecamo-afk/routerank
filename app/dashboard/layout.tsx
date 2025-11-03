@@ -9,12 +9,15 @@ export default async function DashboardLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  // Allow access in demo mode
+  if (!isDemoMode && !user) {
     redirect('/login');
   }
 

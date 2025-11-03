@@ -26,6 +26,15 @@ export function AuthForm({ mode }: AuthFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (isDemoMode) {
+      toast.error('Demo Mode: Supabase is not configured. Authentication is disabled.');
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
 
     try {

@@ -110,3 +110,4 @@ CREATE POLICY "Users can insert own badges"
 --   ON storage.objects FOR INSERT
 --   WITH CHECK (bucket_id = 'route-proofs' AND auth.role() = 'authenticated');
 
+

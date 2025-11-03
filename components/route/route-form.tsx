@@ -35,6 +35,13 @@ export function RouteForm() {
   });
 
   const handleSubmit = async () => {
+    const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+    
+    if (isDemoMode) {
+      toast.error('Demo Mode: Supabase is not configured. Routes cannot be saved.');
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await fetch('/api/routes', {

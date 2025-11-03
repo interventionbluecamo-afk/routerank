@@ -15,6 +15,19 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     async function fetchData() {
+      const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+      
+      if (isDemoMode) {
+        // Show demo leaderboard data
+        setLeaderboard([
+          { id: '1', name: 'Demo Driver 1', company: 'Amazon', avatar_url: null, total_routes: 150, total_packages: 5000, total_miles: 12000, total_stops: 3000 },
+          { id: '2', name: 'Demo Driver 2', company: 'FedEx', avatar_url: null, total_routes: 125, total_packages: 4200, total_miles: 9800, total_stops: 2500 },
+          { id: '3', name: 'Demo Driver 3', company: 'UPS', avatar_url: null, total_routes: 100, total_packages: 3800, total_miles: 8500, total_stops: 2200 },
+        ]);
+        setLoading(false);
+        return;
+      }
+
       const {
         data: { user },
       } = await supabase.auth.getUser();

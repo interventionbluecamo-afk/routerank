@@ -40,3 +40,4 @@ export interface UserBadge {
   earned_at: string;
 }
 
+

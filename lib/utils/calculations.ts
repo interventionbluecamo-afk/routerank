@@ -32,3 +32,4 @@ export function formatEfficiencyScore(score: number): string {
   return score.toFixed(2);
 }
 
+

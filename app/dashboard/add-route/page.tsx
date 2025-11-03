@@ -3,12 +3,14 @@ import { createClient } from '@/lib/supabase/server';
 import { RouteForm } from '@/components/route/route-form';
 
 export default async function AddRoutePage() {
+  const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) {
+  if (!isDemoMode && !user) {
     redirect('/login');
   }
 

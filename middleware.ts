@@ -33,8 +33,11 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Protect dashboard routes
-  if (request.nextUrl.pathname.startsWith('/dashboard')) {
+  // Demo mode: skip auth checks if Supabase is not configured
+  const isDemoMode = !process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+  
+  // Protect dashboard routes (skip in demo mode)
+  if (!isDemoMode && request.nextUrl.pathname.startsWith('/dashboard')) {
     if (!user) {
       const url = request.nextUrl.clone();
       url.pathname = '/login';
@@ -43,8 +46,8 @@ export async function middleware(request: NextRequest) {
     }
   }
 
-  // Redirect authenticated users away from auth pages
-  if (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup')) {
+  // Redirect authenticated users away from auth pages (skip in demo mode)
+  if (!isDemoMode && (request.nextUrl.pathname.startsWith('/login') || request.nextUrl.pathname.startsWith('/signup'))) {
     if (user) {
       const url = request.nextUrl.clone();
       url.pathname = '/dashboard';

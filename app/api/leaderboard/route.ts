@@ -41,7 +41,7 @@ export async function GET(request: NextRequest) {
 
       // Aggregate by user
       const userStats: Record<string, any> = {};
-      routeStats?.forEach((route) => {
+      routeStats?.forEach((route: { user_id: string; packages: number; miles: number; stops: number }) => {
         if (!userStats[route.user_id]) {
           userStats[route.user_id] = { packages: 0, miles: 0, stops: 0 };
         }
@@ -62,12 +62,12 @@ export async function GET(request: NextRequest) {
         .in('id', userIds);
 
       // Combine and sort
-      const leaderboard = users?.map((user) => ({
+      const leaderboard = users?.map((user: { id: string; name: string | null; company: string | null; avatar_url: string | null }) => ({
         ...user,
         ...userStats[user.id],
         [metric]: userStats[user.id][metric.replace('total_', '')] || 0,
       }))
-        .sort((a, b) => (b[metric] || 0) - (a[metric] || 0))
+        .sort((a: any, b: any) => (b[metric] || 0) - (a[metric] || 0))
         .slice(0, 100) || [];
 
       return NextResponse.json({ leaderboard });

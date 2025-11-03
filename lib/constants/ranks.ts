@@ -48,3 +48,4 @@ export function getNextRank(currentRank: RankDefinition): RankDefinition | null 
   return null;
 }
 
+

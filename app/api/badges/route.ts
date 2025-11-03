@@ -133,3 +133,4 @@ async function awardBadge(supabase: any, userId: string, badgeId: string) {
   }
 }
 
+
